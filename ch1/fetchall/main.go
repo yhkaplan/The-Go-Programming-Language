@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -20,17 +21,25 @@ func main() {
 	}
 
 	f, _ := os.Create("results.txt")
-	//check(err)
+	//Handle error
+
 	// Writing defer f.Close here is a Go convention
 	defer f.Close()
 
+	// Creates a buffered writer from the file
+	bufferedWriter := bufio.NewWriter(f)
+
 	for range os.Args[1:] {
 		// Receives from channel 'ch'
-		f.WriteString(<-ch)
+		bufferedWriter.WriteString(<-ch)
+		//f.WriteString(<-ch)
 	}
-	o := fmt.Sprintf("%.2fs elapsed\n", time.Since(start).Seconds())
-	f.WriteString(o)
-	f.Sync()
+	o := fmt.Sprintf("%.2fs elapsed", time.Since(start).Seconds())
+	bufferedWriter.WriteString(o)
+	// Flush memory to disk
+	bufferedWriter.Flush()
+	//f.WriteString(o)
+	//f.Sync()
 }
 
 func fetch(url string, ch chan<- string) {
@@ -51,5 +60,5 @@ func fetch(url string, ch chan<- string) {
 	}
 
 	secs := time.Since(start).Seconds()
-	ch <- fmt.Sprintf("%.2fs %7d %s", secs, nbytes, url)
+	ch <- fmt.Sprintf("%.2fs %7d %s\n", secs, nbytes, url)
 }
