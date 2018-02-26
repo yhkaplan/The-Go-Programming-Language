@@ -11,3 +11,5 @@ func main() {
 
 	fmt.Printf("%x\n%x\n%t\n%T\n", c1, c2, c1 == c2, c1)
 }
+
+// Counts the number of bits
