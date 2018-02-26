@@ -19,7 +19,7 @@ const (
 var sin30, cos30 = math.Sin(angle), math.Cos(angle) // sin(30deg), cos(30deg)
 
 func main() {
-	fmt.Printf("<svg xmlns='http://www.w3.ord/2000/svg'"+
+	fmt.Printf("<svg xmlns='http://www.w3.ord/2000/svg' "+
 		"style='stroke: grey; fill: white; stroke-width: 0.7' "+
 		"width='%d' height='%d'>", width, height)
 
